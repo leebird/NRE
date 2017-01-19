@@ -28,11 +28,16 @@ int dimensionWPE = 5;//25;
 // Word window used to concatenate word embeddings.
 int window = 3;
 
+// Limit for distance between word and entity.
 int limit = 30;
+
+
 float marginPositive = 2.5;
 float marginNegative = 0.5;
 float margin = 2;
+
 float Belt = 0.001;
+
 float *matrixB1, *matrixRelation, *matrixW1, *matrixRelationDao, *matrixRelationPr, *matrixRelationPrDao;
 float *matrixB1_egs, *matrixRelation_egs, *matrixW1_egs, *matrixRelationPr_egs;
 float *matrixB1_exs, *matrixRelation_exs, *matrixW1_exs, *matrixRelationPr_exs;
@@ -45,10 +50,13 @@ float *positionVecDaoE1;
 float *positionVecDaoE2;
 float *matrixW1Dao;
 float *matrixB1Dao;
+
 double mx = 0;
+
 int batch = 16;
 int npoch;
 int len;
+
 float rate = 1;
 FILE *logg;
 
@@ -186,7 +194,7 @@ void init() {
 		// This is relation type.
 		fscanf(f,"%s",buffer);
 		
-		// Not sure what this does?
+		// It's actually building a map from <e1, e2, relation> to head/tail entity index.
 		bags_train[e1+"\t"+e2+"\t"+(string)(buffer)].push_back(headList.size());
 		
 		// Find relation type id.
