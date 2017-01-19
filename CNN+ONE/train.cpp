@@ -209,17 +209,27 @@ void train() {
 	int tmp = 0;
 	b_train.clear();
 	c_train.clear();
+	
+	// bags_train is a mapping from <e1, e2, relation> to head/tail entity index.
 	for (map<string,vector<int> >:: iterator it = bags_train.begin(); it!=bags_train.end(); it++)
 	{
 		for (int i=0; i<max(1,1); i++)
+			// what's this? counting <e1, e2, relation> number?
 			c_train.push_back(b_train.size());
+		// Save <e1, e2, relation>
 		b_train.push_back(it->first);
+		
+		// tmp seems like counting total instances.
 		tmp+=it->second.size();
 	}
+	
+	// Number of <e1, e2, relation> triples.
 	cout<<c_train.size()<<endl;
 
+	// what's this?
 	float con = sqrt(6.0/(dimensionC+relationTotal));
 	float con1 = sqrt(6.0/((dimensionWPE+dimension)*window));
+	
 	matrixRelation = (float *)calloc(dimensionC * relationTotal, sizeof(float));
 	matrixRelationPr = (float *)calloc(relationTotal, sizeof(float));
 	matrixRelationPrDao = (float *)calloc(relationTotal, sizeof(float));
@@ -331,13 +341,23 @@ void train() {
 }
 
 int main(int argc, char ** argv) {
+	// Whether to save model to file. Used in test.h.
 	output_model  = 1;
+	
 	logg = fopen("log.txt","w");
 	cout<<"Init Begin."<<endl;
+	
+	// Load word embeddings, training/test instances etc.
 	init();
+	
+	// These two variables are for what?
 	cout<<bags_train.size()<<' '<<bags_test.size()<<endl;
+	
 	cout<<"Init End."<<endl;
+	
+	// Train.
 	train();
+	
 	fclose(logg);
 	return 0;
 }
