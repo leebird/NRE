@@ -20,9 +20,11 @@ int trainTimes = 15;
 float alpha = 0.02;
 float reduce = 0.98;
 int tt,tt1;
+
+// Seems the size of convolutional layer.
 int dimensionC = 230;//1000;
 
-// Positive feature dimension.
+// Position feature dimension.
 int dimensionWPE = 5;//25;
 
 // Word window used to concatenate word embeddings.
