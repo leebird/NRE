@@ -44,8 +44,11 @@ double train(int flag, int *sentence, int *trainPositionE1, int *trainPositionE2
 		int tip[dimensionC];
 			
 		for (int i = 0; i < dimensionC; i++) {
+			
 			int last = i * dimension * window;
+			
 			int lastt = i * dimensionWPE * window;
+			
 			float mx = -FLT_MAX;
 			for (int i1 = 0; i1 <= len - window; i1++) {
 				float res = 0;
@@ -167,8 +170,10 @@ int turn;
 
 vector<string> b_train;
 vector<int> c_train;
+
 double score_tmp = 0, score_max = 0;
 pthread_mutex_t mutex1;
+
 void* trainMode(void *id ) {
 		unsigned long long next_random = (long long)id;
 		float *r = (float *)calloc(dimensionC, sizeof(float));
@@ -207,10 +212,14 @@ void* trainMode(void *id ) {
 
 void train() {
 	int tmp = 0;
+	
+	// A list of <e1, e2, relation>.
 	b_train.clear();
+	
+	// A list of <e1, e2, relation> sentence set size.
 	c_train.clear();
 	
-	// bags_train is a mapping from <e1, e2, relation> to head/tail entity index.
+	// bags_train is a mapping from <e1, e2, relation> (string) to head/tail entity index.
 	for (map<string,vector<int> >:: iterator it = bags_train.begin(); it!=bags_train.end(); it++)
 	{
 		for (int i=0; i<max(1,1); i++)
