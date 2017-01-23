@@ -227,9 +227,10 @@ void train() {
 	cout<<c_train.size()<<endl;
 
 	// what's this?
-	float con = sqrt(6.0/(dimensionC+relationTotal));
-	float con1 = sqrt(6.0/((dimensionWPE+dimension)*window));
+	float con = sqrt(6.0 / (dimensionC + relationTotal));
+	float con1 = sqrt(6.0 / ((dimensionWPE + dimension) * window));
 	
+	// Allocate memory for a bunch of variables.
 	matrixRelation = (float *)calloc(dimensionC * relationTotal, sizeof(float));
 	matrixRelationPr = (float *)calloc(relationTotal, sizeof(float));
 	matrixRelationPrDao = (float *)calloc(relationTotal, sizeof(float));
@@ -242,6 +243,7 @@ void train() {
 	matrixW1PositionE2 = (float *)calloc(dimensionC * dimensionWPE * window, sizeof(float));
 	matrixB1 = (float*)calloc(dimensionC, sizeof(float));
 
+	
 	for (int i = 0; i < dimensionC; i++) {
 		int last = i * window * dimension;
 		for (int j = dimension * window - 1; j >=0; j--)
@@ -350,7 +352,7 @@ int main(int argc, char ** argv) {
 	// Load word embeddings, training/test instances etc.
 	init();
 	
-	// These two variables are for what?
+	// Mapppings from <e1, e2, relation> to head/tail entity index.
 	cout<<bags_train.size()<<' '<<bags_test.size()<<endl;
 	
 	cout<<"Init End."<<endl;
