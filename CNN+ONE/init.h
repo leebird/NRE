@@ -67,6 +67,7 @@ float *wordVec;
 // Word total number, word embedding dimension, relation type number.
 int wordTotal, dimension, relationTotal;
 
+// Token-to-entity distance min, max, range.
 int PositionMinE1, PositionMaxE1, PositionTotalE1,PositionMinE2, PositionMaxE2, PositionTotalE2;
 
 // Word to index mapping. (Index in embedding file).
@@ -381,6 +382,7 @@ void init() {
 	PositionTotalE2 = PositionMaxE2 - PositionMinE2 + 1;
 }
 
+// tanh activation function, similar to sigmoid.
 float CalcTanh(float con) {
 	if (con > 20) return 1.0;
 	if (con < -20) return -1.0;
@@ -389,11 +391,13 @@ float CalcTanh(float con) {
 	return sinhx / coshx;
 }
 
+// ?
 float tanhDao(float con) {
 	float res = CalcTanh(con);
 	return 1 - res * res;
 }
 
+// sigmoid activation function.
 float sigmod(float con) {
 	if (con > 20) return 1.0;
 	if (con < -20) return 0.0;
@@ -401,6 +405,7 @@ float sigmod(float con) {
 	return con / (1 + con);
 }
 
+// ?
 int getRand(int l,int r) {
 	int len = r - l;
 	int res = rand()*rand() % len;
@@ -409,12 +414,15 @@ int getRand(int l,int r) {
 	return res + l;
 }
 
+// Get random float between l and r.
 float getRandU(float l, float r) {
 	float len = r - l;
+	// 0 <= res <= 1
 	float res = (float)(rand()) / RAND_MAX;
 	return res * len + l;
 }
 
+// Normalize ll to rr elements in a.
 void norm(float* a, int ll, int rr)
 {
 	float tmp = 0;
