@@ -240,19 +240,32 @@ void train() {
 	float con1 = sqrt(6.0 / ((dimensionWPE + dimension) * window));
 	
 	// Allocate memory for a bunch of variables.
+	// Output layer?
 	matrixRelation = (float *)calloc(dimensionC * relationTotal, sizeof(float));
+	
+	// Output prob?
 	matrixRelationPr = (float *)calloc(relationTotal, sizeof(float));
+	
+	// Output prob?
 	matrixRelationPrDao = (float *)calloc(relationTotal, sizeof(float));
+	
+	// Space for wordvec
 	wordVecDao = (float *)calloc(dimension * wordTotal, sizeof(float));
+	
+	// Space for position vector
 	positionVecE1 = (float *)calloc(PositionTotalE1 * dimensionWPE, sizeof(float));
 	positionVecE2 = (float *)calloc(PositionTotalE2 * dimensionWPE, sizeof(float));
 	
+	// First layer weights?
 	matrixW1 = (float*)calloc(dimensionC * dimension * window, sizeof(float));
+	
+	// Distance layer weights?
 	matrixW1PositionE1 = (float *)calloc(dimensionC * dimensionWPE * window, sizeof(float));
 	matrixW1PositionE2 = (float *)calloc(dimensionC * dimensionWPE * window, sizeof(float));
+	
+	// Intercept?
 	matrixB1 = (float*)calloc(dimensionC, sizeof(float));
 
-	
 	for (int i = 0; i < dimensionC; i++) {
 		int last = i * window * dimension;
 		for (int j = dimension * window - 1; j >=0; j--)
