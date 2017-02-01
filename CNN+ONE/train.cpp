@@ -317,18 +317,27 @@ void train() {
 	test();
 	time_end();*/
 //	return;
+	
+	// trainTimes is epoch, defined in init.h, value = 15.
 	for (turn = 0; turn < trainTimes; turn ++) {
 		len = c_train.size();
+		
 		npoch  =  len / (batch * num_threads);
+		
+		// Global variable.
 		alpha1 = alpha*rate/batch;
 
 		score = 0;
 		score_max = 0;
 		score_tmp = 0;
 		double score1 = score;
+		
 		time_begin();
+		
 		for (int k = 1; k <= npoch; k++) {
 			score_max += batch * num_threads;
+			
+			// Copy parameters to backup variables.
 			memcpy(positionVecDaoE1, positionVecE1, PositionTotalE1 * dimensionWPE* sizeof(float));
 			memcpy(positionVecDaoE2, positionVecE2, PositionTotalE2 * dimensionWPE* sizeof(float));
 			memcpy(matrixW1PositionE1Dao, matrixW1PositionE1, dimensionC * dimensionWPE * window* sizeof(float));
@@ -339,12 +348,20 @@ void train() {
 			memcpy(matrixB1Dao, matrixB1, sizeof(float) * dimensionC);
 			memcpy(matrixRelationPrDao, matrixRelationPr, relationTotal * sizeof(float));				//add
 			memcpy(matrixRelationDao, matrixRelation, dimensionC*relationTotal * sizeof(float));
+			
 			pthread_t *pt = (pthread_t *)malloc(num_threads * sizeof(pthread_t));
+			
+			// Start training threads.
 			for (int a = 0; a < num_threads; a++)
 				pthread_create(&pt[a], NULL, trainMode,  (void *)a);
+			
+			// Waiting for finish.
 			for (int a = 0; a < num_threads; a++)
-			pthread_join(pt[a], NULL);
+				pthread_join(pt[a], NULL);
+			
 			free(pt);
+			
+			// Output logs.
 			if (k%(npoch/5)==0)
 			{
 				cout<<"npoch:\t"<<k<<'/'<<npoch<<endl;
@@ -354,12 +371,16 @@ void train() {
 				score1 = score;
 			}
 		}
+		
+		// Final logs.
 		printf("Total Score:\t%f\n",score);
 		printf("test\n");
 		test();
 		//if ((turn+1)%1==0) 
 		//	rate=rate*reduce;
 	}
+	
+	// Test.
 	test();
 	cout<<"Train End"<<endl;
 }
